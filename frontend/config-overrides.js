@@ -2,7 +2,9 @@ const webpack = require('webpack');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = function override(config, env) {
+  // Fallback configuration for node modules that require browser polyfills
   config.resolve.fallback = {
+    ...config.resolve.fallback,
     "http": require.resolve("stream-http"),
     "https": require.resolve("https-browserify"),
     "util": require.resolve("util/"),
@@ -13,6 +15,8 @@ module.exports = function override(config, env) {
     "buffer": require.resolve("buffer/"),
     "process": require.resolve("process/browser")
   };
+
+  // Add polyfills for Node.js modules
   config.plugins = (config.plugins || []).concat([
     new webpack.ProvidePlugin({
       process: 'process/browser',
@@ -20,6 +24,7 @@ module.exports = function override(config, env) {
     }),
   ]);
 
+  // Enable React fast refresh in development
   if (env === 'development') {
     config.plugins.push(new ReactRefreshWebpackPlugin());
     config.module.rules.forEach(rule => {
@@ -34,6 +39,13 @@ module.exports = function override(config, env) {
       }
     });
   }
+
+  // Fix for axios and process/browser in ESM mode
+  config.resolve.alias = {
+    ...config.resolve.alias,
+    'process': 'process/browser',
+    'axios': require.resolve('axios')  // Ensure axios is resolved correctly
+  };
 
   return config;
 };

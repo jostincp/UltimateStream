@@ -20,8 +20,12 @@ function Login() {
       // Redirigir al usuario a otra página, por ejemplo, el dashboard
       window.location.href = '/dashboard';
     } catch (error) {
-      console.error('Login error:', error.response.data);
-      setError('Usuario o contraseña incorrectos'); // Establecer el mensaje de error
+      console.error('Login error:', error);
+      if (error.response && error.response.data) {
+        setError('Usuario o contraseña incorrectos'); // Establecer el mensaje de error
+      } else {
+        setError('Error de conexión o servidor'); // Mensaje de error genérico
+      }
     }
   };
 

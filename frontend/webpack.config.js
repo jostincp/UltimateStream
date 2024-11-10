@@ -8,6 +8,9 @@ module.exports = {
     filename: 'bundle.js',
   },
   resolve: {
+    alias: {
+      'process': 'process/browser.js'
+    },
     fallback: {
       "http": require.resolve("stream-http"),
       "https": require.resolve("https-browserify"),
