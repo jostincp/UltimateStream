@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import Sidebar from './components/Sidebar';
+import AlertSettings from './components/AlertSettings';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/alertas" element={<AlertSettings />} /> {/* Ruta para las alertas */}
             <Route path="/" element={<Login />} />
           </Routes>
         </div>
